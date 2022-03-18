@@ -1,0 +1,129 @@
+#include <iostream>
+#include <windows.h>
+using namespace std;
+
+char mapa[20][20] = {
+
+"###################",
+"#                 #",
+"# $ $$  $  $$ $$  #",
+"# $ $$  $  $$ $$  #",
+"# $ $$  $  $$ $$  #",
+"# $ $$  $  $$ $$  #",
+"# $ $$$$$$$$$ $$  #",
+"# $ $$$$$$$$$ $$  #",
+"#                 #",
+"#                 #",
+"#                 #",
+"#                 #",
+"#                 #",
+"#                 #",
+"#                 #",
+"#                 #",
+"#                 #",
+"#        I        #",
+"###################"
+
+};
+bool koniechry = true;
+int gamespeed = 010;
+int main(int argc[])
+{
+    int d = 0;
+    system("color 0A");
+
+
+    do {
+        koniechry = true;
+        for (int a = 0; a < 20; a++)
+        {
+            for (int b = 0; b < 20; b++)
+            {
+                if (mapa[a][b] == '$')
+                {
+                    koniechry = false;
+                }
+            }
+        }
+        system("cls");
+        cout << "score=" << d << endl;
+        for (int y = 0; y < 20; y++)
+        {
+            cout << mapa[y] << endl;
+        }
+
+        for (int y = 0; y < 20; y++)
+        {
+            for (int x = 0; x < 20; x++)
+            {
+                switch (mapa[y][x])
+                {
+                case 'I':
+                {
+
+                    if (GetAsyncKeyState(VK_LEFT) != 0)
+                    {
+                        int newx = x - 1;
+                        switch (mapa[y][newx])
+                        {
+                        case ' ':
+                        {
+                            mapa[y][x] = ' ';
+                            x--;
+                            mapa[y][newx] = 'I';
+                            break;
+                        }
+
+                        }
+                    }
+
+                    if (GetAsyncKeyState(VK_RIGHT) != 0)
+                    {
+                        int newx = x + 1;
+
+                        switch (mapa[y][newx])
+                        {
+                        case' ':
+                        {
+                            mapa[y][x] = ' ';
+                            x++;
+                            mapa[y][newx] = 'I';
+                            break;
+                        }
+                        }
+                    }
+                    if (GetAsyncKeyState(VK_SPACE) != 0)
+                    {
+                        y--;
+                        mapa[y][x] = '^';
+                    }
+                    break;
+                }
+                case '^':
+                {
+                    mapa[y][x] = ' ';
+                    y--;
+                    if (mapa[y][x] == '$')
+                    {
+                        d++;
+                    }
+                    if (mapa[y][x] != '#' && mapa[y][x] != '$')
+                    {
+                        mapa[y][x] = '^';
+                    }
+                    else if (mapa[y][x] == '$')
+                    {
+                        mapa[y][x] = ' ';
+                    }
+                    break;
+                }
+                }
+            }
+            Sleep(gamespeed);
+        }
+    } while (koniechry == false);
+    system("cls");
+    cout << "\n\n\n\t\t\t Hra skoncila" << endl;
+    system("pause");
+    return(0);
+}
